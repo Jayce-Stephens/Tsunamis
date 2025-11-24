@@ -41,6 +41,26 @@ class ScaperTest(unittest.TestCase):
         soup = Scraper.getAcademicCalander(url)
 
         self.assertIsNone(soup)
+    
+    def test_getDropDates_succes(self):
+        Mock_HTML = """
+            <table>
+                <tr><td>Last Day to Drop A Course</td><td>January 22</td></tr>
+                <tr><td>Last Day to Drop A Course Without a W</td><td>October 2</td></tr>   
+                <tr><td>Last Day to Drop A Course</td><td>July 12</td></tr>   
+            </table>       
+        """
+        soup = BeautifulSoup(Mock_HTML, "html.parser")
+        results = Scraper.getDropDates(soup)
+
+        expected = {
+            "Fall Semester": ["October 2"],
+            "Spring Semester": ["January 22"],
+            "Summer Semester": ["July 12"]
+        }
+
+        self.assertEqual(results, expected)
+        
 
 
 

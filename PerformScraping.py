@@ -45,7 +45,7 @@ class Scraper:
                 elif(month in springMonths):
                     date_map.setdefault("Spring Semester",[]).append(c)
                 elif(month in summerMonths):
-                    date_map.setdefault("Summer Summester",[]).append(c)
+                    date_map.setdefault("Summer Semester",[]).append(c)
                  
             
             return date_map
