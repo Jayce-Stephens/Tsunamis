@@ -30,6 +30,18 @@ class ScaperTest(unittest.TestCase):
 
         self.assertIsInstance(soup, BeautifulSoup)
 
+    @patch('PerformScraping.requests.get')
+    def test_getAcademicCalander_invalid_url(self, mock_get):
+        url = "https://invalid-url"
+        mock_response = MagicMock()
+        mock_response.status_code = 404
+        mock_response.text = ""
+        mock_get.return_value = mock_response
+
+        soup = Scraper.getAcademicCalander(url)
+
+        self.assertIsNone(soup)
+
 
 
 if __name__=='__main__':
