@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List
 import csv
 from pathlib import Path
+import re 
 
 
 DATA_FILE = Path("data") / "courses.csv"
