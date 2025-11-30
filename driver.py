@@ -2,6 +2,8 @@ from PerformScraping import Scraper
 from crn_check import run_crn_lookup
 from schedule import Schedule, load_course_from_csv
 from drop_slip import DropSlip, write_drop_slip_to_file
+from resources import load_default_resources
+
 
 
 
@@ -56,6 +58,19 @@ class Driver:
         filename = write_drop_slip_to_file(slip)
 
         print("Drop slip created:", filename)
+
+    from resources import load_default_resources
+
+def show_resources_menu() -> None:
+    """Display all quick-links with numbers a student can choose from."""
+    resources = load_default_resources()
+
+    print("\n=== Quick-Links Menu ===")
+    for idx, r in enumerate(resources, start=1):
+        print(f"{idx}. {r.name} ({r.category})")
+
+    print("\nEnter a number to open a resource or press Enter to cancel.")
+
 
     
     
