@@ -2,9 +2,7 @@ from PerformScraping import Scraper
 from crn_check import run_crn_lookup
 from schedule import Schedule, load_course_from_csv
 from drop_slip import DropSlip, write_drop_slip_to_file
-from resources import load_default_resources, get_drop_deadline_info
-
-
+from resources import load_default_resources, get_drop_deadline_info, load_professor_contacts
 
 
 
@@ -93,6 +91,16 @@ def handle_resource_selection(choice: str) -> None:
         print(f"URL: {selected.url}")
 
 
+
+
+def show_professor_contacts():
+    data = load_professor_contacts()
+    print("\n=== Professor Contacts ===")
+    for course, info in data.items():
+        print(f"{course}: {info['professor']}")
+        print(f"  Email: {info['email']}")
+        print(f"  Hours: {info['office_hours']}")
+        print()
 
     
     
