@@ -46,6 +46,24 @@ def filter_by_subject(courses: List[Course], subject: str) -> List[Course]:
     return [c for c in courses if c.subject == subject]
 
 
+COURSE_CODE_PATTERN = re.compile(r"^[A-Z]{2,4}\s+\d{3,4}$")
+
+def validate_course_code(raw_code: str) -> str:
+    """
+    Validate and normalize a course code like 'MATH 2550'.
+    Returns the cleaned code ('MATH 2550') or raises ValueError with a  error message.
+    """
+    if raw_code is None or raw_code.strip() == "":
+        raise ValueError("Course code is required.")
+
+    cleaned = " ".join(raw_code.upper().split())
+
+    if not COURSE_CODE_PATTERN.match(cleaned):
+        raise ValueError("Course code must look like 'SUBJ 1234', e.g. 'MATH 2550'.")
+
+    return cleaned
+
+
 def prompt_subject() -> str:
     return input("Enter a subject code (e.g., MATH, CPSC, ENGL): ").strip()
 
