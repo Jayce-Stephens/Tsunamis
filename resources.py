@@ -7,7 +7,7 @@ class Resource:
     name: str
     url: str
     category: str
-    icon: str  # simple text icon name for now
+    icon: str  
 
 def load_default_resources() -> List[Resource]:
     """Return a list of common XULA/CPSC resource links."""
@@ -37,3 +37,14 @@ def load_default_resources() -> List[Resource]:
             icon="tutor"
         ),
     ]
+
+def get_drop_deadline_info() -> str:
+    """
+    Returns the drop deadline information.
+    """
+    return (
+        "Drop Deadline Information:\n"
+        "- Last day to drop a course: Sept 15\n"
+        "- Last day to withdraw with a 'W': Oct 27\n"
+        "(Check XULA Registrar for official updates)"
+    )

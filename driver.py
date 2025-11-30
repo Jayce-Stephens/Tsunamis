@@ -2,7 +2,7 @@ from PerformScraping import Scraper
 from crn_check import run_crn_lookup
 from schedule import Schedule, load_course_from_csv
 from drop_slip import DropSlip, write_drop_slip_to_file
-from resources import load_default_resources
+from resources import load_default_resources, get_drop_deadline_info
 
 
 
@@ -70,6 +70,28 @@ def show_resources_menu() -> None:
         print(f"{idx}. {r.name} ({r.category})")
 
     print("\nEnter a number to open a resource or press Enter to cancel.")
+
+def handle_resource_selection(choice: str) -> None:
+    resources = load_default_resources()
+
+    if not choice.isdigit():
+        print("Invalid selection.")
+        return
+
+    idx = int(choice)
+    if not (1 <= idx <= len(resources)):
+        print("Selection out of range.")
+        return
+
+    selected = resources[idx - 1]
+
+    print(f"\nYou selected: {selected.name}")
+
+    if selected.name == "Drop Deadline Calendar":
+        print("\n" + get_drop_deadline_info())
+    else:
+        print(f"URL: {selected.url}")
+
 
 
     
