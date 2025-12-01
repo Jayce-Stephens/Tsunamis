@@ -2,10 +2,8 @@ from PerformScraping import Scraper
 from crn_check import run_crn_lookup
 from schedule import Schedule, load_course_from_csv
 from drop_slip import DropSlip, write_drop_slip_to_file
+from resources import load_default_resources, get_drop_deadline_info, load_professor_contacts
 
-# NEW imports
-from gpa_calculator import run_gpa_calculator
-from course_search import search_course_offerings, CURRENT_SEMESTER
 
 
 class Driver:
@@ -76,39 +74,52 @@ class Driver:
 
         print("Drop slip created:", filename)
 
-    # ==== NEW feature: course offering checker ====
-    def run_course_offering_check(self):
-        print("\n--- Course Offering Check ---\n")
-        print(f"Current semester: {CURRENT_SEMESTER}")
-        print("Example input: MATH 2550, CPSC 2740, ENGL 1020\n")
 
-        course_code = input("Enter a course code (e.g., MATH 2550): ").strip()
-        result = search_course_offerings(course_code)
+def show_resources_menu() -> None:
+    """Display all quick-links with numbers a student can choose from."""
+    resources = load_default_resources()
 
-        status = result.get("status")
-        message = result.get("message", "")
-        sections = result.get("sections", [])
+    print("\n=== Quick-Links Menu ===")
+    for idx, r in enumerate(resources, start=1):
+        print(f"{idx}. {r.name} ({r.category})")
 
-        print(f"\n{message}\n")
+    print("\nEnter a number to open a resource or press Enter to cancel.")
 
-        if status in ("offered", "full") and sections:
-            print("Sections:")
-            for i, sec in enumerate(sections, start=1):
-                prefix = sec.get("prefix", "")
-                number = sec.get("number", "")
-                crn = sec.get("crn", "N/A")
-                days = sec.get("days", "TBA")
-                time = sec.get("time", "TBA")
-                instructor = sec.get("instructor", "TBA")
-                seats_open = sec.get("seats_open", "N/A")
+def handle_resource_selection(choice: str) -> None:
+    resources = load_default_resources()
 
-                print(
-                    f"  {i}. {prefix} {number} (CRN {crn}) "
-                    f"- {days} {time}, {instructor}, seats open: {seats_open}"
-                )
-            print()
+    if not choice.isdigit():
+        print("Invalid selection.")
+        return
+
+    idx = int(choice)
+    if not (1 <= idx <= len(resources)):
+        print("Selection out of range.")
+        return
+
+    selected = resources[idx - 1]
+
+    print(f"\nYou selected: {selected.name}")
+
+    if selected.name == "Drop Deadline Calendar":
+        print("\n" + get_drop_deadline_info())
+    else:
+        print(f"URL: {selected.url}")
 
 
+
+
+def show_professor_contacts():
+    data = load_professor_contacts()
+    print("\n=== Professor Contacts ===")
+    for course, info in data.items():
+        print(f"{course}: {info['professor']}")
+        print(f"  Email: {info['email']}")
+        print(f"  Hours: {info['office_hours']}")
+        print()
+
+    
+    
 if __name__ == "__main__":
     driver = Driver()
     driver.main()

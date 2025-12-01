@@ -7,7 +7,7 @@ class Resource:
     name: str
     url: str
     category: str
-    icon: str  # simple text icon name for now
+    icon: str  
 
 def load_default_resources() -> List[Resource]:
     """Return a list of common XULA/CPSC resource links."""
@@ -37,3 +37,34 @@ def load_default_resources() -> List[Resource]:
             icon="tutor"
         ),
     ]
+
+def get_drop_deadline_info() -> str:
+    """
+    Returns the drop deadline information.
+    """
+    return (
+        "Drop Deadline Information:\n"
+        "- Last day to drop a course: Sept 15\n"
+        "- Last day to withdraw with a 'W': Oct 27\n"
+        "(Check XULA Registrar for official updates)"
+    )
+def load_professor_contacts() -> dict:
+    """Return professor contact info for common CPSC courses."""
+    return {
+        "CPSC 1710": {
+            "professor": "Dr. Edwards",
+            "email": "edwards@xula.edu",
+            "office_hours": "MWF 1–3PM"
+        },
+        "CPSC 2735": {
+            "professor": "Dr. Lanf",
+            "email": "lang@xula.edu",
+            "office_hours": "TR 10–12PM"
+        },
+        "CPSC 3350": {
+            "professor": "Dr. Hayes",
+            "email": "hayes@xula.edu",
+            "office_hours": "MW 2–4PM"
+        }
+    }
+
