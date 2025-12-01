@@ -1,7 +1,19 @@
 import unittest
+import requests
+from unittest.mock import patch, MagicMock
 from resources import Resource, load_default_resources
 
+
 class TestResources(unittest.TestCase):
+
+    def link_requests(url: str):
+        try:
+            response = requests.head(url, timout=10)
+            if(response.status_code == 200):
+                return True
+        except:
+            return False
+
 
     def test_returns_list(self):
         resources = load_default_resources()
@@ -28,6 +40,21 @@ class TestResources(unittest.TestCase):
         self.assertEqual(firstResource.url, "https://www.xula.edu/academics/calendar")
         self.assertEqual(firstResource.category, "Academics")
         self.assertEqual(firstResource.icon, "calendar")
+    
+    @patch("requests.head")
+    def test_functional_links(self, mock_get):
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_get.return_value = mock_response
+
+        resources = load_default_resources()
+        test_link = ""
+
+        for item in resources:
+            test_link = item.url
+            self.assertTrue(TestResources.link_requests(test_link))
+
+            
 
 
 
