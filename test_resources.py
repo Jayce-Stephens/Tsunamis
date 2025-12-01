@@ -13,5 +13,11 @@ class TestResources(unittest.TestCase):
 
         self.assertEqual(len(resources), 4)
 
+    def test_items_are_resources(self):
+        resources = load_default_resources()
+
+        for item in resources:
+            self.assertIsInstance(item, Resource)
+
 
 
