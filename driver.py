@@ -3,6 +3,10 @@ from crn_check import run_crn_lookup
 from schedule import Schedule, load_course_from_csv
 from drop_slip import DropSlip, write_drop_slip_to_file
 from resources import load_default_resources, get_drop_deadline_info, load_professor_contacts
+from gpa_calculator import run_gpa_calculator
+from course_search import search_course_offerings
+
+
 
 
 
@@ -74,6 +78,27 @@ class Driver:
 
         print("Drop slip created:", filename)
 
+# ==== feature 3: course offering check ====
+    def run_course_offering_check(self):
+        """Menu option 5: check whether a course is offered this semester."""
+        print("\n--- Course Offering Checker ---\n")
+        course_code = input("Enter a course code (e.g., MATH 2550): ").strip()
+
+        # Call your existing search function
+        result = search_course_offerings(course_code)
+
+        # Show the main message
+        print("\n" + result["message"])
+
+        # If it is offered or full, list all sections
+        if result["status"] in ("offered", "full"):
+            print("\nSections:")
+            for section in result["sections"]:
+                print(
+                    f"  {section.course_code()} | {section.days} {section.time} | "
+                    f"Instructor: {section.instructor} | Seats Open: {section.seats_open}"
+                )
+
 
 def show_resources_menu() -> None:
     """Display all quick-links with numbers a student can choose from."""
@@ -117,6 +142,8 @@ def show_professor_contacts():
         print(f"  Email: {info['email']}")
         print(f"  Hours: {info['office_hours']}")
         print()
+
+      
 
     
     
