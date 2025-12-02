@@ -12,3 +12,10 @@ class TestSchedule(unittest.TestCase):
         self.assertEqual(len(s.courses), 1)
         self.assertEqual(s.courses[0]["crn"], "10002")
     
+    def test_is_registered(self):
+        s = Schedule("001", "Austin")
+        course = {"crn": "10002", "title": "Math"}
+
+        s.add_course(course)
+
+        self.assertTrue(s.is_registered_for("10002"))
