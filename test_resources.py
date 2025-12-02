@@ -61,6 +61,10 @@ class TestResources(unittest.TestCase):
         mock_get.return_value = mock_response
 
         self.assertFalse(TestResources.link_requests("https://invalid-url#"))
+    
+if __name__ == "__main__":
+    unittest.main()
+
 
             
 

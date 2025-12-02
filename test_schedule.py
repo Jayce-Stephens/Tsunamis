@@ -1,7 +1,7 @@
 import unittest
 from schedule import Schedule, load_course_from_csv
 from unittest.mock import mock_open, patch
-from io import StringIO
+
 
 class TestSchedule(unittest.TestCase):
 
@@ -54,3 +54,6 @@ class TestSchedule(unittest.TestCase):
             course = load_course_from_csv("30003", csv_path="fakeCSV.csv")
 
         self.assertIsNone(course)
+
+if __name__ == "__main__":
+    unittest.main()
